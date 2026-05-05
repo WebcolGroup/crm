@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { LeadRepositoryPort } from '../../../Ports/repositories/lead.repository.port';
 import { N8nServicePort } from '../../../Ports/services/n8n.service.port';
 import { CalcularScoreUseCase } from './calcular-score.use-case';
@@ -18,7 +18,12 @@ export class CrearLeadUseCase {
   async ejecutar(dto: CrearLeadDto): Promise<Lead> {
     const existente = await this.leadRepo.buscarPorEmail(dto.email);
     if (existente) {
-      throw new ConflictException(`Ya existe un lead con el email ${dto.email}`);
+      // Upsert: actualiza el lead existente con los nuevos datos
+      const { score, nivel } = this.calcularScore.ejecutar(
+        { ...existente, ...dto },
+        0,
+      );
+      return this.leadRepo.actualizar(existente.id, { ...dto, score, nivel });
     }
 
     const { score, nivel } = this.calcularScore.ejecutar(dto, 0);
