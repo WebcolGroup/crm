@@ -1,0 +1,12 @@
+/* CRM Global Styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--surface-ground);
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  vertical-align: middle;
+}
