@@ -52,6 +52,17 @@ services:
     volumes:
       - ./logs:/app/logs
 
+  crm_front:
+    build:
+      context: .
+      dockerfile: Dockerfile.front
+    container_name: crm_front
+    restart: unless-stopped
+    ports:
+      - '4200:80'
+    depends_on:
+      - crm_api
+
 volumes:
   postgres_data:
   redis_data:
