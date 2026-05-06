@@ -68,6 +68,98 @@ El desarrollo sigue una **arquitectura hexagonal (Ports & Adapters)** orientada 
 - Si agregas nuevas dependencias, documenta su propósito y uso.
 - Si el proyecto crece, considera separar instrucciones específicas en archivos adicionales (por ejemplo, para backend, frontend o automatización).
 
+## Git Conventions
+
+This project follows the **[Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)** specification for all commit messages.
+
+### Commit Message Structure
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Commit Types
+
+| Type | Description |
+|------|-------------|
+| `feat` | Introduces a new feature (correlates with **MINOR** in SemVer) |
+| `fix` | Patches a bug (correlates with **PATCH** in SemVer) |
+| `docs` | Documentation changes only |
+| `style` | Formatting, missing semicolons, etc. — no logic change |
+| `refactor` | Code change that neither fixes a bug nor adds a feature |
+| `perf` | Performance improvement |
+| `test` | Adding or correcting tests |
+| `build` | Changes to the build system or external dependencies |
+| `ci` | Changes to CI/CD configuration files and scripts |
+| `chore` | Other changes that don't modify source or test files |
+| `revert` | Reverts a previous commit |
+
+### Scope (optional)
+
+Provide contextual information about which part of the codebase is affected, enclosed in parentheses:
+
+```
+feat(leads): add score calculation on creation
+fix(auth): correct token expiration handling
+refactor(dashboard): extract metrics aggregation logic
+```
+
+Valid scopes for this project: `leads`, `auth`, `citas`, `ventas`, `interacciones`, `dashboard`, `webhooks`, `n8n`, `db`.
+
+### Breaking Changes
+
+Mark breaking changes with `!` after the type/scope, or include a `BREAKING CHANGE:` footer:
+
+```
+feat(api)!: rename lead status field
+
+BREAKING CHANGE: `estado` field renamed to `status` in Lead entity response.
+```
+
+### Rules
+
+- The description MUST immediately follow the `type:` prefix (lowercase, imperative mood, no period at the end).
+- The body, if present, MUST begin one blank line after the description.
+- Footers MUST begin one blank line after the body.
+- Use `-` instead of spaces in footer tokens (e.g., `Reviewed-by:`).
+- `BREAKING CHANGE` footer token MUST be uppercase.
+- Each commit should represent a single logical change — if a commit covers multiple concerns, split it.
+
+### Examples
+
+```bash
+# New feature
+feat(leads): add pagination to lead listing
+
+# Bug fix
+fix(auth): resolve JWT expiration not refreshing session
+
+# Breaking change with footer
+feat(leads)!: replace score field with scoring object
+
+BREAKING CHANGE: the `score` number field is now a nested object with `value` and `reason`.
+
+# Docs
+docs: update AGENTS.md with git conventions
+
+# Revert
+revert: let us never again speak of the broken migration
+
+Refs: 676104e, a215868
+```
+
+### SemVer Mapping
+
+| Commit type | SemVer bump |
+|-------------|-------------|
+| `fix` | PATCH |
+| `feat` | MINOR |
+| `BREAKING CHANGE` | MAJOR |
+
 ## Documentación
 
 Actualmente no existen archivos de documentación adicionales. Si se agregan, enlázalos aquí para referencia rápida.
